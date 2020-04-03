@@ -1,0 +1,10 @@
+node_modules/
+data/
+*.swp
+*.swo
+.DS_Store
+coverage
+npm-debug.log
+config/local.*
+config/local-.*
+yarn.lock

@@ -1,0 +1,72 @@
+{
+  "name": "webdl",
+  "version": "0.1.0",
+  "description": "Web page resource sniff and crawl through puppeteer",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint --format codeframe *.js",
+    "prettier": "prettier --write *.js",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test-travis": "npm run eslint && jest --coverage --collectCoverageFrom=lib/**/*.js",
+    "test": "npm run eslint && jest --passWithNoTests"
+  },
+  "author": "arronzhang@me.com",
+  "license": "MIT",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/tj/commander.js.git"
+  },
+  "bin": {
+    "webdl": "./webdl.js"
+  },
+  "dependencies": {
+    "@cliqz/adblocker": "^1.13.0",
+    "chalk": "^4.0.0",
+    "commander": "^5.0.0",
+    "fs-extra": "^9.0.0",
+    "puppeteer": "^2.1.1"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.11",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "jest": "^25.2.6",
+    "prettier": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint"
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "semi": false
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:prettier/recommended",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "rules": {
+      "no-undef": "error"
+    },
+    "env": {
+      "es6": true,
+      "jest": true,
+      "node": true
+    }
+  }
+}
