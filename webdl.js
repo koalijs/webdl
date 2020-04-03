@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { open } = require('./index')
 const { program } = require('commander')
 const path = require('path')
