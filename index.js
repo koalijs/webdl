@@ -12,7 +12,7 @@ exports.save = save
 exports.open = open
 
 function save(dest, { filter, slient, rename, override }) {
-  const f = urlFilter(filter)
+  const f = urlFilter(Array.isArray(filter) ? filter.join('\n') : filter)
   return async (response) => {
     const urlString = response.url()
     if (urlString) {
