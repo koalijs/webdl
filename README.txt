@@ -3,7 +3,10 @@ Webdl
 
 Web page resource sniff and crawl through puppeteer
 
-Usage: webdl open [options] <url> [dest]
+Usage: 
+
+npm install -g webdl
+webdl open <url> [dest]
 
 Open web page for track request files
 
