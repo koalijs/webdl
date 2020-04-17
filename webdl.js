@@ -16,7 +16,7 @@ program
   .option('-s, --slient', "Don't show logs")
   .option('-o, --override', 'Override files')
   .action(function (url, dest, options) {
-    open(url, path.resolve(process.env.PWD, dest), options)
+    open(url, path.resolve(process.cwd(), dest), options)
   })
 
 program.parse(process.argv)
