@@ -15,6 +15,7 @@ program
   )
   .option('-s, --slient', "Don't show logs")
   .option('-o, --override', 'Override files')
+  .option('--web-data-dir [dir]', 'Web data dir', 'chrome')
   .action(function (url, dest, options) {
     open(url, path.resolve(process.cwd(), dest), options)
   })

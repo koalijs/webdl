@@ -21,8 +21,8 @@ function save(dest, { filter, slient, rename, override }) {
         return
       }
       const match = f(response)
-      if (!slient) console.log(match ? chalk.green('✔') : chalk.red('✕'), urlString)
       if (match) {
+        console.log(chalk.green('✔'), urlString)
         let filePath
         if (rename) {
           filePath = rename(urlString)
@@ -39,13 +39,15 @@ function save(dest, { filter, slient, rename, override }) {
         const write = override || !existsSync(filePath)
         !slient && console.log(chalk.cyan(write ? '>' : '-') + filePath)
         write && outputFileSync(filePath, await response.buffer())
+      } else {
+        if (!slient) console.log(chalk.red('✕'), urlString)
       }
     }
   }
 }
 
 async function open(url, dest, options) {
-  const browser = await puppeteer.launch({
+  const ppOpts = {
     executablePath: process.env.CHROME_BIN,
     args: [
       '--no-sandbox',
@@ -55,8 +57,14 @@ async function open(url, dest, options) {
       //'--disable-dev-shm-usage',
     ],
     ignoreHTTPSErrors: true,
+    userDataDir: path.join(dest, 'chrome'),
     headless: options.headless || false,
-  })
+  }
+  if (options.userDataDir) {
+    ppOpts.userDataDir = path.resolve(dest, options.userDataDir)
+  }
+
+  const browser = await puppeteer.launch(ppOpts)
   const page = await browser.newPage()
   await page.setUserAgent(
     options.userAgent ||
