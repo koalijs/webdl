@@ -22,7 +22,7 @@ function save(dest, { filter, slient, rename, override }) {
       }
       const match = f(response)
       if (match) {
-        console.log(chalk.green('✔'), urlString)
+        !slient && console.log(chalk.green('✔'), urlString)
         let filePath
         if (rename) {
           filePath = rename(urlString)
@@ -38,7 +38,9 @@ function save(dest, { filter, slient, rename, override }) {
         filePath = path.join(dest, filePath)
         const write = override || !existsSync(filePath)
         !slient && console.log(chalk.cyan(write ? '>' : '-') + filePath)
-        write && outputFileSync(filePath, await response.buffer())
+        try {
+          write && outputFileSync(filePath, await response.buffer())
+        } catch (e) {}
       } else {
         if (!slient) console.log(chalk.red('✕'), urlString)
       }
@@ -51,6 +53,7 @@ async function open(url, dest, options) {
     executablePath: process.env.CHROME_BIN,
     args: [
       '--no-sandbox',
+      '--disable-features=site-per-process', //https://github.com/puppeteer/puppeteer/issues/2548
       //'--disable-gpu',
       //`--disable-extensions-except=${CRX_PATH}`,
       //`--load-extension=${CRX_PATH}`,
@@ -71,6 +74,7 @@ async function open(url, dest, options) {
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
   )
   page.on('response', save(dest, options))
+
   await page.goto(url)
 }
 
